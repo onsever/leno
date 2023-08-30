@@ -10,8 +10,6 @@ public interface CustomerService {
 
     CustomerDto getCustomerByEmail(String email);
 
-    CustomerDto createCustomer(CustomerDto customerDto);
-
     CustomerDto updateCustomer(CustomerDto customerDto, Long customerId);
 
     void deleteCustomer(Long customerId);

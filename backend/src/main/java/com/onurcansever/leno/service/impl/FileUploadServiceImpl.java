@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
-public final class FileUploadServiceImpl implements FileUploadService {
+public class FileUploadServiceImpl implements FileUploadService {
 
     private final Cloudinary cloudinary;
 
@@ -21,7 +22,14 @@ public final class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
-    public String uploadFile(MultipartFile multipartFile, Long customerId) throws IOException {
-        return this.cloudinary.uploader().upload(multipartFile.getBytes(), Map.of("public_id", UUID.randomUUID().toString())).get("url").toString();
+    public String uploadCustomerProfilePhoto(MultipartFile multipartFile, Long customerId) throws IOException {
+        String publicId = String.format("customers/%d/profile-picture", customerId);
+
+        Map<String, Object> uploadParams = new HashMap<>();
+        uploadParams.put("public_id", publicId);
+
+        Map<?, ?> uploadResult = this.cloudinary.uploader().upload(multipartFile.getBytes(), uploadParams);
+
+        return uploadResult.get("url").toString();
     }
 }

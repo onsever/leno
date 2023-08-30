@@ -6,5 +6,6 @@ import java.io.IOException;
 
 public interface FileUploadService {
 
-    String uploadFile(MultipartFile multipartFile, Long customerId) throws IOException;
+    String uploadCustomerProfilePhoto(MultipartFile multipartFile, Long customerId) throws IOException;
+
 }
