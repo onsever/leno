@@ -1,10 +1,11 @@
 package com.onurcansever.leno.payload;
 
-import com.onurcansever.leno.entity.Customer;
 import com.onurcansever.leno.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,11 +17,11 @@ public class ProductDetailDto {
     private String image;
     private Double price;
 
-    private Long customerId;
-    private String username;
-    private String profilePicture;
+    private CustomerDto customer;
 
-    public ProductDetailDto(Product product, Customer customer) {
+    private Set<CategoryDto> categories;
+
+    public ProductDetailDto(Product product, CustomerDto customer, Set<CategoryDto> categories) {
         this.productId = product.getProductId();
         this.name = product.getName();
         this.description = product.getDescription();
@@ -28,10 +29,10 @@ public class ProductDetailDto {
         this.price = product.getPrice();
 
         if (customer != null) {
-            this.customerId = customer.getCustomerId();
-            this.username = customer.getUsername();
-            this.profilePicture = customer.getProfilePicture();
+            this.customer = customer;
         }
+
+        this.categories = categories;
     }
 
 }
