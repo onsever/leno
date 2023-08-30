@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -49,5 +51,8 @@ public final class Customer extends BaseEntity {
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    List<Product> products;
 
 }
