@@ -21,7 +21,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = {"email"}),
         }
 )
-public final class Customer extends BaseEntity {
+public class Customer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +60,9 @@ public final class Customer extends BaseEntity {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    List<Product> products;
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Product> products;
 
 }
