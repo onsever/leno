@@ -37,4 +37,9 @@ public class AuthController {
         return new ResponseEntity<>(this.authService.register(registerDto), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/registerAdmin")
+    public ResponseEntity<String> registerAdmin(@RequestBody RegisterDto registerDto) {
+        return new ResponseEntity<>(this.authService.registerAdminAccount(registerDto), HttpStatus.OK);
+    }
+
 }
