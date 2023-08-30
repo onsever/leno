@@ -3,6 +3,7 @@ package com.onurcansever.leno.service.impl;
 import com.cloudinary.Cloudinary;
 import com.onurcansever.leno.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
+    @PreAuthorize(value = "#customerId == authentication.principal.customerId")
     public String uploadCustomerProfilePhoto(MultipartFile multipartFile, Long customerId) throws IOException {
         String publicId = String.format("customers/%d/profile-picture", customerId);
 
