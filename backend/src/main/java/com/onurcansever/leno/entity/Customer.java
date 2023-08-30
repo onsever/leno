@@ -1,6 +1,5 @@
 package com.onurcansever.leno.entity;
 
-import com.onurcansever.leno.utility.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,8 +49,15 @@ public final class Customer extends BaseEntity {
     private String profilePicture;
 
     @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "customer_roles",
+            joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "customerId"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId")
+    )
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<Product> products;

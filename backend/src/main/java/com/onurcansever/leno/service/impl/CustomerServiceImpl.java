@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -44,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @PreAuthorize(value = "#customerId == authentication.principal.customerId")
+    @PreAuthorize(value = "hasRole('ADMIN') or #customerId == authentication.principal.customerId")
     public CustomerDto updateCustomer(CustomerDto customerDto, Long customerId) {
         Customer existingCustomer = this.customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
 
@@ -59,9 +61,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @PreAuthorize(value = "#customerId == authentication.principal.customerId")
+    @PreAuthorize(value = "hasRole('ADMIN') or #customerId == authentication.principal.customerId")
     public void deleteCustomer(Long customerId) {
         Customer existingCustomer = this.customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+
+        existingCustomer.setRoles(new HashSet<>());
+        this.customerRepository.save(existingCustomer);
 
         this.customerRepository.delete(existingCustomer);
     }

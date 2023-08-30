@@ -50,10 +50,7 @@ public final class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Get the user object from the database
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
-            Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority("CUSTOMER"));
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

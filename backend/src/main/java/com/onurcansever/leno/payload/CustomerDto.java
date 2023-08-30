@@ -1,6 +1,5 @@
 package com.onurcansever.leno.payload;
 
-import com.onurcansever.leno.utility.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +17,5 @@ public final class CustomerDto {
     private String email;
     private String phoneNumber;
     private String profilePicture;
-    private Role role;
+    private String role;
 }

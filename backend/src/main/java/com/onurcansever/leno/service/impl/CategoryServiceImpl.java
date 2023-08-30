@@ -9,6 +9,7 @@ import com.onurcansever.leno.repository.ProductRepository;
 import com.onurcansever.leno.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public CategoryDto createCategory(CategoryDto categoryDto) {
         Category category = this.convertToEntity(categoryDto);
 
@@ -42,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public void deleteCategory(Long categoryId) {
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
@@ -49,6 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @PreAuthorize(value = "hasRole('ADMIN')")
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category updatedCategory = this.categoryRepository.findById(categoryDto.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryDto.getCategoryId()));
 
