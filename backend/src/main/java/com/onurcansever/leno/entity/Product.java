@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,5 +34,12 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "productId"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "categoryId")
+    )
+    private Set<Category> categories;
 
 }
