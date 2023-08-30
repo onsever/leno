@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,8 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Customer customer = this.customerRepository.findByEmail(email)
                 .orElseThrow();
 
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("CUSTOMER"));
+        Set<GrantedAuthority> authorities = customer.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toSet());
 
         return new CustomUserDetails(customer.getCustomerId(), customer.getEmail(), customer.getPassword(), authorities);
     }
