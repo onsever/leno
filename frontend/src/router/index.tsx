@@ -1,10 +1,21 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouteObject } from "react-router-dom";
 import { HomePage } from "../pages";
+import { Layout } from "../components";
 
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+    ],
   },
 ];
 
