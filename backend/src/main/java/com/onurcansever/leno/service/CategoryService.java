@@ -2,6 +2,8 @@ package com.onurcansever.leno.service;
 
 import com.onurcansever.leno.payload.CategoryDto;
 
+import java.util.Set;
+
 public interface CategoryService {
 
     CategoryDto getCategoryByName(String name);
@@ -15,5 +17,7 @@ public interface CategoryService {
     void assignCategoryToProduct(Long categoryId, Long productId);
 
     void deleteCategoryFromProduct(Long categoryId, Long productId);
+
+    Set<CategoryDto> getAllCategories();
 
 }
