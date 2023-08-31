@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -83,6 +87,13 @@ public class CategoryServiceImpl implements CategoryService {
         product.getCategories().remove(category);
 
         this.productRepository.save(product);
+    }
+
+    @Override
+    public Set<CategoryDto> getAllCategories() {
+        List<Category> categories = this.categoryRepository.findAll();
+
+        return categories.stream().map(this::convertToDto).collect(Collectors.toSet());
     }
 
     private CategoryDto convertToDto(Category category) {
