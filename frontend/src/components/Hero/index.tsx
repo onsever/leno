@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "../Button";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
+  const handleOnButtonClick = () => {
+    navigate("/register");
+  };
+
   return (
     <section className="relative">
       <div className="bg-[url('/src/assets/header-bg.jpg')] h-[500px] bg-cover bg-center" />
@@ -13,9 +21,9 @@ export default function Hero() {
           <h1 className="text-4xl">your closet?</h1>
           <div className="h-2" />
           <Link to={"/"}>
-            <button className="flex items-center justify-center h-7 px-5 py-6 text-md text-white bg-primary rounded-md">
+            <Button className="w-40 h-12" onClick={handleOnButtonClick}>
               Start selling
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
