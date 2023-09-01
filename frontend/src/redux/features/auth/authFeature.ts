@@ -1,35 +1,34 @@
-import {
-  createApi,
-  fetchBaseQuery,
-  FetchBaseQueryError,
-} from "@reduxjs/toolkit/query/react";
-import { SerializedError } from "@reduxjs/toolkit";
-import { JWT, LoginCredentials, RegisterCredentials } from "../../../types";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { LoginCredentials, RegisterCredentials } from "../../../types";
 
-type LoginResponse<T> = {
-  data?: T;
-  error?: FetchBaseQueryError | SerializedError;
+type LoginResponse = {
+  accessToken?: string;
+  tokenType?: string;
 };
 
-type RegisterResponse<T> = {
-  data?: T;
-  error?: FetchBaseQueryError | SerializedError;
+type RegisterResponse = {
+  data?: string;
 };
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_URL}/auth`,
+    prepareHeaders: (headers) => {
+      headers.set("Access-Control-Allow-Origin", "*");
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
-    login: builder.mutation<LoginResponse<JWT>, LoginCredentials>({
+    login: builder.mutation<LoginResponse, LoginCredentials>({
       query: (body) => ({
         url: "/login",
         method: "POST",
         body,
       }),
     }),
-    register: builder.mutation<RegisterResponse<any>, RegisterCredentials>({
+    register: builder.mutation<RegisterResponse, RegisterCredentials>({
       query: (body) => ({
         url: "/register",
         method: "POST",
