@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useRegisterMutation } from "../../redux/features/auth/authFeature.ts";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Logo from "../../components/Logo";
 import { Button, Input } from "../../components";
 import { Link } from "react-router-dom";
@@ -9,9 +10,11 @@ import {
   validateRegisterCredentials,
   validateConfirmPassword,
 } from "./authValidations.ts";
+import { RootState } from "../../redux/store.ts";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const auth = useSelector((state: RootState) => state.auth);
 
   const [register, { isError }] = useRegisterMutation();
 
@@ -53,6 +56,12 @@ export default function RegisterPage() {
   useEffect(() => {
     document.title = "Sign up | Leno";
   }, []);
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/feed");
+    }
+  }, [auth.token, navigate]);
 
   return (
     <div className="flex items-center justify-center h-screen pb-20">
