@@ -58,14 +58,17 @@ export default function Footer() {
       </section>
       {/* Footer Links */}
       <section className="flex items-start justify-between mx-auto w-[1120px] py-14 text-md">
-        {footerLinks.map((footerLink: FooterLink) => (
-          <div className="flex flex-col space-y-2" key={footerLink.title}>
+        {footerLinks.map((footerLink: FooterLink, index: number) => (
+          <div
+            className="flex flex-col space-y-2"
+            key={`${footerLink.title}-${index}`}
+          >
             <h5 className="font-medium">{footerLink.title}</h5>
-            {footerLink.links.map((path: FooterPath) => (
+            {footerLink.links.map((path: FooterPath, index: number) => (
               <Link
                 to={path.path}
                 className="text-[#6E6E6E] hover:text-primary"
-                key={path.path}
+                key={`${path.link}-${index}`}
               >
                 {path.link}
               </Link>
