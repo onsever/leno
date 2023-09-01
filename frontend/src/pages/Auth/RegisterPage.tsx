@@ -1,10 +1,20 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useRegisterMutation } from "../../redux/features/auth/authFeature.ts";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo";
 import { Button, Input } from "../../components";
 import { Link } from "react-router-dom";
 import { RegisterCredentials } from "../../types";
+import {
+  validateRegisterCredentials,
+  validateConfirmPassword,
+} from "./authValidations.ts";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+
+  const [register, { isError }] = useRegisterMutation();
+
   const [registerCredentials, setRegisterCredentials] =
     useState<RegisterCredentials>({
       firstName: "",
@@ -16,9 +26,19 @@ export default function RegisterPage() {
     });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(registerCredentials);
+
+    if (
+      validateRegisterCredentials(registerCredentials) &&
+      validateConfirmPassword(registerCredentials.password, confirmPassword)
+    ) {
+      await register(registerCredentials);
+
+      if (!isError) {
+        navigate("/login");
+      }
+    }
   };
 
   const handleRegisterCredentialsChange = (

@@ -1,18 +1,38 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useLoginMutation } from "../../redux/features/auth/authFeature.ts";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store.ts";
 import Logo from "../../components/Logo";
 import { Button, Input } from "../../components";
-import { Link } from "react-router-dom";
 import { LoginCredentials } from "../../types";
+import { setToken } from "../../redux/features/auth/authSlice.ts";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector((state: RootState) => state.auth);
+
+  const [login] = useLoginMutation();
+
   const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
     email: "",
     password: "",
   });
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(loginCredentials);
+
+    try {
+      const response = await login(loginCredentials).unwrap();
+
+      if (response) {
+        const accessToken = response.accessToken!;
+        dispatch(setToken(accessToken));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLoginCredentialsChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +45,12 @@ export default function LoginPage() {
   useEffect(() => {
     document.title = "Log in | Leno";
   }, []);
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/feed");
+    }
+  }, [auth.token, navigate]);
 
   return (
     <div className="flex items-center justify-center h-screen pb-20">
@@ -59,7 +85,7 @@ export default function LoginPage() {
               name="password"
             />
           </div>
-          <Button className="py-4">Sign up</Button>
+          <Button className="py-4">Log in</Button>
         </form>
         <div className="flex items-center justify-center w-[430px] mt-8">
           <p className="text-sm text-gray-500">
