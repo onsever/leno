@@ -8,6 +8,8 @@ import {
   MyAccountPage,
   RegisterPage,
   SettingsPage,
+  SingleProductPage,
+  UserProfilePage,
 } from "../pages";
 import { Layout } from "../components";
 import ProtectedRoute from "./ProtectedRoute";
@@ -60,6 +62,14 @@ const routes: RouteObject[] = [
             <AddProductPage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/products/:productId",
+        element: <SingleProductPage />,
+      },
+      {
+        path: "/user/:customerId",
+        element: <UserProfilePage />,
       },
     ],
   },

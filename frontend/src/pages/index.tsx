@@ -6,3 +6,5 @@ export { default as FeedPage } from "./FeedPage";
 export { default as MyAccountPage } from "./MyAccountPage";
 export { default as SettingsPage } from "./SettingsPage";
 export { default as AddProductPage } from "./AddProductPage";
+export { default as SingleProductPage } from "./SingleProductPage";
+export { default as UserProfilePage } from "./UserProfilePage";
