@@ -12,9 +12,6 @@ export default function NavBar() {
           <li className="flex items-center justify-center hover:bg-gray-200 px-4 py-2 cursor-pointer">
             <a href="#">Kids</a>
           </li>
-          <li className="flex items-center justify-center hover:bg-gray-200 px-4 py-2 cursor-pointer">
-            <a href="#">Maternity</a>
-          </li>
         </ul>
       </nav>
     </section>

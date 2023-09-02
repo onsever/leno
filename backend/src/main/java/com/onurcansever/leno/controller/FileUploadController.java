@@ -28,4 +28,11 @@ public class FileUploadController {
 
         return ResponseEntity.ok(profilePictureUrl);
     }
+
+    @PostMapping("/product/image")
+    public ResponseEntity<String> uploadProductImage(@RequestParam("file") MultipartFile file, @RequestParam("customerId") Long customerId) throws IOException {
+        String productImageUrl = fileUploadService.uploadProductImage(file, customerId);
+
+        return ResponseEntity.ok(productImageUrl);
+    }
 }

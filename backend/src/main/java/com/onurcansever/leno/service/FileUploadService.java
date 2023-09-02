@@ -8,4 +8,6 @@ public interface FileUploadService {
 
     String uploadCustomerProfilePhoto(MultipartFile multipartFile, Long customerId) throws IOException;
 
+    String uploadProductImage(MultipartFile multipartFile, Long customerId) throws IOException;
+
 }

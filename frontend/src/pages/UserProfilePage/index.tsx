@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store.ts";
+import { useParams } from "react-router-dom";
 import { useGetCustomerByIdQuery } from "../../redux/features/customer/customerFeature.ts";
 import { useGetProductsByCustomerIdQuery } from "../../redux/features/product/productFeature.ts";
-import { tokenDecoder } from "../../utils/tokenDecoder.ts";
 import { Loading, ProductCard } from "../../components";
 
-export default function MyAccountPage() {
-  const token = useSelector((state: RootState) => state.auth.token);
-  const customerId = tokenDecoder(token)?.customerId;
-  const { data: customer, isLoading } = useGetCustomerByIdQuery(customerId!);
-  const { data: products } = useGetProductsByCustomerIdQuery(customerId!);
+export default function UserProfilePage() {
+  const { customerId } = useParams();
+  const { data: customer, isLoading } = useGetCustomerByIdQuery(
+    Number(customerId)
+  );
+  const { data: products } = useGetProductsByCustomerIdQuery(
+    Number(customerId)
+  );
 
   const [activeTab, setActiveTab] = useState<"products" | "favorites">(
     "products"

@@ -37,6 +37,19 @@ type Customer = {
   role: string;
 };
 
+type Category = {
+  categoryId: number;
+  name: string;
+};
+
+type Product = {
+  productId: number;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+};
+
 type Address = {
   addressId: number;
   street: string;
@@ -77,6 +90,34 @@ type DeleteAddressInput = {
   addressId: number;
 };
 
+type ProductInput = {
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+};
+
+type ProductDetail = {
+  productId: number;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  customer: Customer;
+  categories: Category[];
+};
+
+type ProductRequest = {
+  customerId: number;
+  productInput: ProductInput;
+};
+
+type ProductRequestWithId = {
+  customerId: number;
+  productId: number;
+  productInput: ProductInput;
+};
+
 export type {
   RegisterCredentials,
   LoginCredentials,
@@ -88,4 +129,10 @@ export type {
   CreateAddressInput,
   UpdateAddressInput,
   DeleteAddressInput,
+  ProductInput,
+  ProductDetail,
+  Category,
+  Product,
+  ProductRequest,
+  ProductRequestWithId,
 };
