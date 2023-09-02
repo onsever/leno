@@ -5,3 +5,4 @@ export { default as ErrorPage } from "./ErrorPage";
 export { default as FeedPage } from "./FeedPage";
 export { default as MyAccountPage } from "./MyAccountPage";
 export { default as SettingsPage } from "./SettingsPage";
+export { default as AddProductPage } from "./AddProductPage";
