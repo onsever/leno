@@ -5,12 +5,16 @@ import { authApi } from "./features/auth/authFeature.ts";
 import { customerApi } from "./features/customer/customerFeature.ts";
 import { fileUploadApi } from "./features/file-upload/fileUploadFeature.ts";
 import { addressApi } from "./features/address/addressFeature.ts";
+import { productApi } from "./features/product/productFeature.ts";
+import { categoryApi } from "./features/category/categoryFeature.ts";
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
   [fileUploadApi.reducerPath]: fileUploadApi.reducer,
   [addressApi.reducerPath]: addressApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
+  [categoryApi.reducerPath]: categoryApi.reducer,
   auth: authReducer,
 });
 
@@ -23,7 +27,9 @@ export const store = configureStore({
       authApi.middleware,
       customerApi.middleware,
       fileUploadApi.middleware,
-      addressApi.middleware
+      addressApi.middleware,
+      productApi.middleware,
+      categoryApi.middleware
     ),
 });
 
