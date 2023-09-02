@@ -28,7 +28,7 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
     lastName: "",
     username: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
   });
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const profilePictureRef = useRef<HTMLInputElement | null>(null);
@@ -88,7 +88,7 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
         lastName: fetchedCustomer?.lastName,
         username: fetchedCustomer?.username,
         email: fetchedCustomer?.email,
-        phone: fetchedCustomer?.phoneNumber,
+        phoneNumber: fetchedCustomer?.phoneNumber,
       });
     }
   }, [isSuccess]);
@@ -179,6 +179,7 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
                 value={inputs.username}
                 placeholder="Username"
                 onChange={handleOnChange}
+                disabled
               />
 
               <label htmlFor="email">Email</label>
@@ -196,12 +197,20 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
                 id="phoneNumber"
                 name="phoneNumber"
                 type="tel"
-                value={inputs.phone}
+                value={inputs.phoneNumber}
                 placeholder="Phone number"
                 onChange={handleOnChange}
+                disabled
               />
             </div>
-
+            <p className="text-gray-500 text-sm">
+              We will use this information to contact you about your account and
+              orders.
+            </p>
+            <p className="text-gray-500 text-sm">
+              To change your username or phone number, please contact customer
+              support.
+            </p>
             <Button>Save changes</Button>
           </div>
         </div>
