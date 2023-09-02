@@ -43,7 +43,7 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
       firstName: firstName!,
       lastName: lastName!,
       email: email!,
-      profilePicture: customer.profilePicture,
+      profilePicture: fetchedCustomer!.profilePicture,
     });
 
     navigate("/settings?refetch=true");
@@ -51,12 +51,29 @@ export default function MyAccountTab({ customer }: MyAccountTabProps) {
 
   const handleUploadProfilePicture = async () => {
     if (profilePicture) {
-      await uploadProfilePicture({
-        file: profilePicture,
-        customerId: customer.customerId,
-      });
-      setProfilePicture(null);
-      profilePictureRef.current!.value = "";
+      try {
+        const response = await uploadProfilePicture({
+          file: profilePicture,
+          customerId: customer.customerId,
+        });
+
+        const { firstName, lastName, email } = inputs;
+
+        await updateCustomerById({
+          customerId: customer.customerId,
+          firstName: firstName!,
+          lastName: lastName!,
+          email: email!,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          profilePicture: response.error.data,
+        });
+
+        setProfilePicture(null);
+        profilePictureRef.current!.value = "";
+      } catch (e) {
+        console.error("Mutation Error:", e);
+      }
     }
   };
 
