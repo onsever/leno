@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet, RouteObject } from "react-router-dom";
 import {
+  AddProductPage,
   ErrorPage,
   FeedPage,
   HomePage,
@@ -49,6 +50,14 @@ const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <SettingsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/add-product",
+        element: (
+          <ProtectedRoute>
+            <AddProductPage />
           </ProtectedRoute>
         ),
       },
