@@ -12,7 +12,6 @@ export const fileUploadApi = createApi({
         headers.set("Authorization", `Bearer ${token}`);
       }
 
-      headers.set("Content-Type", "multipart/form-data");
       headers.set("Access-Control-Allow-Origin", "*");
 
       return headers;
