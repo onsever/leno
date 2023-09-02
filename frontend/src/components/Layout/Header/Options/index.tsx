@@ -1,12 +1,23 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { HiOutlineHeart, HiOutlineShoppingCart } from "react-icons/hi";
 import { IoIosArrowDown } from "react-icons/io";
 import { clearToken } from "../../../../redux/features/auth/authSlice.ts";
+import { JWTReturn } from "../../../../types";
+import { useGetCustomerByIdQuery } from "../../../../redux/features/customer/customerFeature.ts";
 
-export default function Options() {
+interface OptionsProps {
+  authenticatedCustomer: JWTReturn;
+}
+
+export default function Options({ authenticatedCustomer }: OptionsProps) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isAccountHovered, setIsAccountHovered] = useState<boolean>(false);
+  const { data: fetchedCustomer } = useGetCustomerByIdQuery(
+    authenticatedCustomer.customerId
+  );
 
   const handleLogout = () => {
     dispatch(clearToken());
@@ -21,11 +32,15 @@ export default function Options() {
         onClick={() => setIsAccountHovered(!isAccountHovered)}
       >
         <div className="flex items-center space-x-2">
-          <div className="bg-primary text-white p-1 text-sm rounded-full">
-            OS
-          </div>
+          <img
+            src={fetchedCustomer?.profilePicture}
+            alt="Profile Picture"
+            className="w-7 h-7 rounded-full"
+          />
           <div className="flex items-center justify-center space-x-1">
-            <span className="text-sm text-gray-400">Onurcan</span>
+            <span className="text-sm text-gray-400">
+              {fetchedCustomer?.firstName}
+            </span>
             <IoIosArrowDown className="w-4 h-4 text-gray-400" />
           </div>
         </div>
@@ -36,13 +51,19 @@ export default function Options() {
           onMouseLeave={() => setIsAccountHovered(false)}
         >
           <div className="flex flex-col space-y-2">
-            <span className="text-sm text-gray-400 hover:bg-gray-200 p-2">
+            <span
+              className="text-sm text-gray-400 hover:bg-gray-200 p-2"
+              onClick={() => navigate("/my-account")}
+            >
               My Account
             </span>
             <span className="text-sm text-gray-400 hover:bg-gray-200 p-2">
               Orders
             </span>
-            <span className="text-sm text-gray-400 hover:bg-gray-200 p-2">
+            <span
+              className="text-sm text-gray-400 hover:bg-gray-200 p-2"
+              onClick={() => navigate("/settings")}
+            >
               Settings
             </span>
             <span
