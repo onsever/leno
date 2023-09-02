@@ -25,11 +25,22 @@ export const fileUploadApi = createApi({
         formData.append("file", file);
         formData.append("customerId", customerId);
 
-        console.log(formData.get("file"));
-        console.log(formData.get("customerId"));
-
         return {
           url: "/customer/profile-picture",
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+    uploadProductImage: builder.mutation({
+      query: ({ file, customerId }) => {
+        const formData = new FormData();
+
+        formData.append("file", file);
+        formData.append("customerId", customerId);
+
+        return {
+          url: "/product/image",
           method: "POST",
           body: formData,
         };
@@ -38,4 +49,7 @@ export const fileUploadApi = createApi({
   }),
 });
 
-export const { useUploadProfilePictureMutation } = fileUploadApi;
+export const {
+  useUploadProfilePictureMutation,
+  useUploadProductImageMutation,
+} = fileUploadApi;
