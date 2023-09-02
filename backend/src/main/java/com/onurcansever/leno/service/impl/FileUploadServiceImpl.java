@@ -34,4 +34,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
         return uploadResult.get("url").toString();
     }
+
+    @Override
+    public String uploadProductImage(MultipartFile multipartFile, Long customerId) throws IOException {
+        String publicId = String.format("customers/products/%d-%s", customerId, UUID.randomUUID().toString());
+
+        Map<String, Object> uploadParams = new HashMap<>();
+        uploadParams.put("public_id", publicId);
+
+        Map<?, ?> uploadResult = this.cloudinary.uploader().upload(multipartFile.getBytes(), uploadParams);
+
+        return uploadResult.get("url").toString();
+    }
 }
