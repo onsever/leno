@@ -6,15 +6,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store.ts";
 import Options from "./Options";
 import NavBar from "./NavBar";
+import { tokenDecoder } from "../../../utils/tokenDecoder.ts";
 
 export default function Header() {
   const navigate = useNavigate();
   const auth = useSelector((state: RootState) => state.auth);
   const headerRef = useRef<HTMLElement>(null);
+  const authenticatedCustomer = tokenDecoder(auth.token);
 
   const handleOnButtonClick = () => {
     if (auth.token) {
-      navigate("/sell");
+      navigate("/add-product");
     } else {
       navigate("/register");
     }
@@ -64,7 +66,7 @@ export default function Header() {
         <SearchBar />
         <div className="flex items-center space-x-4">
           {auth.token ? (
-            <Options />
+            <Options authenticatedCustomer={authenticatedCustomer!} />
           ) : (
             <button
               className="flex items-center justify-center h-7 px-1.5 py-2 text-sm text-primary border border-primary bg-white rounded-md hover:bg-gray-100"

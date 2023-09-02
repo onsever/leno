@@ -1,8 +1,11 @@
 package com.onurcansever.leno.security;
 
+import com.onurcansever.leno.payload.CustomerDto;
+import com.onurcansever.leno.service.CustomerService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -22,10 +25,19 @@ public final class JwtTokenProvider {
     @Value(value = "${app.jwt-expiration-milliseconds}")
     private Long jwtExpirationDate;
 
+    private final CustomerService customerService;
+
+    @Autowired
+    public JwtTokenProvider(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     // Generate JWT Token
     public String generateToken(Authentication authentication) {
         String email = authentication.getName();
         Long id = ((CustomUserDetails) authentication.getPrincipal()).getCustomerId();
+
+        CustomerDto customerDto = this.customerService.getCustomerById(id);
 
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
@@ -33,6 +45,13 @@ public final class JwtTokenProvider {
         // Create JWT Token
         String jwtToken = Jwts.builder()
                 .claim("customerId", id)
+                .claim("firstName", customerDto.getFirstName())
+                .claim("lastName", customerDto.getLastName())
+                .claim("username", customerDto.getUsername())
+                .claim("email", customerDto.getEmail())
+                .claim("phoneNumber", customerDto.getPhoneNumber())
+                .claim("profilePicture", customerDto.getProfilePicture())
+                .claim("role", customerDto.getRole())
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)

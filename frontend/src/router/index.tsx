@@ -4,9 +4,12 @@ import {
   FeedPage,
   HomePage,
   LoginPage,
+  MyAccountPage,
   RegisterPage,
+  SettingsPage,
 } from "../pages";
 import { Layout } from "../components";
+import ProtectedRoute from "./ProtectedRoute";
 
 const routes: RouteObject[] = [
   {
@@ -32,6 +35,22 @@ const routes: RouteObject[] = [
       {
         path: "/feed",
         element: <FeedPage />,
+      },
+      {
+        path: "/my-account",
+        element: (
+          <ProtectedRoute>
+            <MyAccountPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <ProtectedRoute>
+            <SettingsPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
