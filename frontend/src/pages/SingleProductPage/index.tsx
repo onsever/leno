@@ -21,8 +21,6 @@ export default function SingleProductPage() {
     Number(productId)
   );
 
-  console.log(customerId);
-
   const checkIfProductBelongsToTheSeller = () => {
     return product?.customer.customerId === customerId;
   };

@@ -28,23 +28,27 @@ export default function ProductDetailCard({
     currentCustomerId!
   );
 
-  const handleAddProductToWishlist = () => {
+  const handleAddProductToWishlist = async () => {
     if (currentCustomerId) {
-      addProductToWishlistByCustomerId({
+      await addProductToWishlistByCustomerId({
         customerId: currentCustomerId,
         productId: product!.productId,
       });
+
+      window.location.reload();
     } else {
       navigate("/login");
     }
   };
 
-  const handleRemoveProductFromWishlist = () => {
+  const handleRemoveProductFromWishlist = async () => {
     if (currentCustomerId) {
       removeProductFromWishlistByCustomerId({
         customerId: currentCustomerId,
         productId: product!.productId,
       });
+
+      window.location.reload();
     } else {
       navigate("/login");
     }
