@@ -42,4 +42,7 @@ public class Product extends BaseEntity {
     )
     private Set<Category> categories;
 
+    @ManyToMany(mappedBy = "wishlist", fetch = FetchType.LAZY)
+    private Set<Customer> customers;
+
 }

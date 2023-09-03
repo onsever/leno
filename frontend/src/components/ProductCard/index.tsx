@@ -1,8 +1,8 @@
-import { ProductDetail } from "../../types";
+import { Product, ProductDetail } from "../../types";
 import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
-  product: ProductDetail;
+  product: ProductDetail | Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {

@@ -1,16 +1,63 @@
 import { Button } from "../index.tsx";
 import { ProductDetail } from "../../types";
 import { AiOutlineHeart } from "react-icons/ai";
+import {
+  useAddProductToWishlistByCustomerIdMutation,
+  useGetWishlistByCustomerIdQuery,
+  useRemoveProductFromWishlistByCustomerIdMutation,
+} from "../../redux/features/wishlist/wishlistFeature.ts";
+import { useNavigate } from "react-router-dom";
 
 interface ProductDetailCardProps {
   product?: ProductDetail;
   validation: boolean;
+  currentCustomerId?: number;
 }
 
 export default function ProductDetailCard({
   product,
   validation,
+  currentCustomerId,
 }: ProductDetailCardProps) {
+  const navigate = useNavigate();
+  const [addProductToWishlistByCustomerId] =
+    useAddProductToWishlistByCustomerIdMutation();
+  const [removeProductFromWishlistByCustomerId] =
+    useRemoveProductFromWishlistByCustomerIdMutation();
+  const { data: wishlist } = useGetWishlistByCustomerIdQuery(
+    currentCustomerId!
+  );
+
+  const handleAddProductToWishlist = () => {
+    if (currentCustomerId) {
+      addProductToWishlistByCustomerId({
+        customerId: currentCustomerId,
+        productId: product!.productId,
+      });
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleRemoveProductFromWishlist = () => {
+    if (currentCustomerId) {
+      removeProductFromWishlistByCustomerId({
+        customerId: currentCustomerId,
+        productId: product!.productId,
+      });
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleAddProductToCart = () => {
+    if (currentCustomerId) {
+      console.log("add to cart");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center w-full mt-10">
       <div className="flex justify-center items-center w-full h-96">
@@ -35,12 +82,32 @@ export default function ProductDetailCard({
           className="mt-4 w-1/2 disabled:bg-gray-300 disabled:cursor-not-allowed"
           disabled={validation}
         >
-          <span className="text-sm">Add to cart</span>
+          <span className="text-sm" onClick={handleAddProductToCart}>
+            Add to cart
+          </span>
         </Button>
-        <div className="flex w-full items-center mt-4 cursor-pointer text-gray-500 hover:text-primary">
-          <AiOutlineHeart className="text-2xl" />
-          <span className="text-sm ml-2">Add to Wishlist</span>
-        </div>
+        {validation ? (
+          <></>
+        ) : wishlist?.some(
+            (wishlistItem) => wishlistItem.productId === product?.productId
+          ) ? (
+          <div className="flex w-full items-center mt-4 cursor-pointer text-gray-500 hover:text-red-500">
+            <AiOutlineHeart className="text-2xl" />
+            <span
+              className="text-sm ml-2"
+              onClick={handleRemoveProductFromWishlist}
+            >
+              Remove from Wishlist
+            </span>
+          </div>
+        ) : (
+          <div className="flex w-full items-center mt-4 cursor-pointer text-gray-500 hover:text-primary">
+            <AiOutlineHeart className="text-2xl" />
+            <span className="text-sm ml-2" onClick={handleAddProductToWishlist}>
+              Add to Wishlist
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,20 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store.ts";
 import { useGetCustomerByIdQuery } from "../../redux/features/customer/customerFeature.ts";
 import { useGetProductsByCustomerIdQuery } from "../../redux/features/product/productFeature.ts";
 import { tokenDecoder } from "../../utils/tokenDecoder.ts";
 import { Loading, ProductCard } from "../../components";
+import {
+  useGetWishlistByCustomerIdQuery,
+  useRemoveProductFromWishlistByCustomerIdMutation,
+} from "../../redux/features/wishlist/wishlistFeature.ts";
+import { useLocation } from "react-router-dom";
+import { BsTrash } from "react-icons/bs";
 
 export default function MyAccountPage() {
   const token = useSelector((state: RootState) => state.auth.token);
   const customerId = tokenDecoder(token)?.customerId;
   const { data: customer, isLoading } = useGetCustomerByIdQuery(customerId!);
   const { data: products } = useGetProductsByCustomerIdQuery(customerId!);
+  const { data: wishlist } = useGetWishlistByCustomerIdQuery(customerId!);
+  const [removeProductFromWishlist] =
+    useRemoveProductFromWishlistByCustomerIdMutation();
+
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState<"products" | "favorites">(
     "products"
   );
+
+  const handleRemoveProductFromWishlist = async (productId: number) => {
+    try {
+      await removeProductFromWishlist({
+        customerId: customerId!,
+        productId: productId,
+      }).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const tab = query.get("tab");
+    if (tab === "favorites") {
+      setActiveTab("favorites");
+    }
+  }, [location]);
 
   if (isLoading) return <Loading />;
 
@@ -58,7 +88,7 @@ export default function MyAccountPage() {
                     : "flex flex-col items-center justify-center text-gray-500"
                 }
               >
-                <span className="text-3xl">0</span>
+                <span className="text-3xl">{wishlist?.length}</span>
                 <span className="mt-2 pb-2">Favorites</span>
               </div>
             </div>
@@ -81,6 +111,22 @@ export default function MyAccountPage() {
                   </p>
                 </div>
               )
+            ) : wishlist?.length ? (
+              <div className="grid grid-cols-4 gap-8">
+                {wishlist?.map((product) => (
+                  <div key={product.productId} className="relative">
+                    <ProductCard product={product} />
+                    <div className="absolute top-2 right-2">
+                      <BsTrash
+                        className="text-3xl w-8 h-8 text-white cursor-pointer hover:scale-110 bg-red-500 rounded-full p-1.5"
+                        onClick={() =>
+                          handleRemoveProductFromWishlist(product.productId)
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="flex flex-col justify-center items-center w-full">
                 <span className="text-3xl">💔</span>
