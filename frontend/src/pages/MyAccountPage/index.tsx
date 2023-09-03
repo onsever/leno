@@ -32,7 +32,9 @@ export default function MyAccountPage() {
       await removeProductFromWishlist({
         customerId: customerId!,
         productId: productId,
-      }).unwrap();
+      });
+
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
