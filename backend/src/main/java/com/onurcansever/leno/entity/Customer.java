@@ -65,4 +65,12 @@ public class Customer extends BaseEntity {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Product> products;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "customer_wishlist",
+            joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "customerId"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "productId")
+    )
+    private Set<Product> wishlist;
+
 }
