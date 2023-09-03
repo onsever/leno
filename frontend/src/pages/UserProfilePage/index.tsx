@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useGetCustomerByIdQuery } from "../../redux/features/customer/customerFeature.ts";
 import { useGetProductsByCustomerIdQuery } from "../../redux/features/product/productFeature.ts";
 import { Loading, ProductCard } from "../../components";
+import { useGetWishlistByCustomerIdQuery } from "../../redux/features/wishlist/wishlistFeature.ts";
 
 export default function UserProfilePage() {
   const { customerId } = useParams();
@@ -10,6 +11,9 @@ export default function UserProfilePage() {
     Number(customerId)
   );
   const { data: products } = useGetProductsByCustomerIdQuery(
+    Number(customerId)
+  );
+  const { data: wishlist } = useGetWishlistByCustomerIdQuery(
     Number(customerId)
   );
 
@@ -59,7 +63,7 @@ export default function UserProfilePage() {
                     : "flex flex-col items-center justify-center text-gray-500"
                 }
               >
-                <span className="text-3xl">0</span>
+                <span className="text-3xl">{wishlist?.length}</span>
                 <span className="mt-2 pb-2">Favorites</span>
               </div>
             </div>
@@ -82,6 +86,12 @@ export default function UserProfilePage() {
                   </p>
                 </div>
               )
+            ) : wishlist?.length ? (
+              <div className="grid grid-cols-4 gap-8">
+                {wishlist?.map((product) => (
+                  <ProductCard key={product.productId} product={product} />
+                ))}
+              </div>
             ) : (
               <div className="flex flex-col justify-center items-center w-full">
                 <span className="text-3xl">💔</span>

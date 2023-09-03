@@ -21,6 +21,8 @@ export default function SingleProductPage() {
     Number(productId)
   );
 
+  console.log(customerId);
+
   const checkIfProductBelongsToTheSeller = () => {
     return product?.customer.customerId === customerId;
   };
@@ -33,6 +35,7 @@ export default function SingleProductPage() {
       <ProductDetailCard
         product={product}
         validation={checkIfProductBelongsToTheSeller()}
+        currentCustomerId={customerId}
       />
       {/* Product Review Section | Dummy Data */}
       <div className="flex flex-col justify-start items-start w-full mt-10">

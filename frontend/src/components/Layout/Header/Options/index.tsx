@@ -25,7 +25,10 @@ export default function Options({ authenticatedCustomer }: OptionsProps) {
 
   return (
     <div className="flex items-center space-x-4">
-      <HiOutlineHeart className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
+      <HiOutlineHeart
+        className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary"
+        onClick={() => navigate("/my-account?tab=favorites")}
+      />
       <HiOutlineShoppingCart className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
       <div
         className="p-1.5 hover:bg-gray-200 cursor-pointer relative"
