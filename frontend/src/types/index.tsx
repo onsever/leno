@@ -118,6 +118,12 @@ type ProductRequestWithId = {
   productInput: ProductInput;
 };
 
+type CartItem = {
+  cartItemId: number;
+  product: Product;
+  customer: Customer;
+};
+
 export type {
   RegisterCredentials,
   LoginCredentials,
@@ -135,4 +141,5 @@ export type {
   Product,
   ProductRequest,
   ProductRequestWithId,
+  CartItem,
 };

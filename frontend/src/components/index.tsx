@@ -11,3 +11,4 @@ export { default as SellerCard } from "./SellerCard";
 export { default as OtherProductsFromSeller } from "./OtherProductsFromSeller";
 export { default as ReviewCard } from "./ReviewCard";
 export { default as FeedProductCard } from "./FeedProductCard";
+export { default as CartSidebar } from "./CartSidebar";
