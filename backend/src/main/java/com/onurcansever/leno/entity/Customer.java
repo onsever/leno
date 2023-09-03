@@ -73,4 +73,7 @@ public class Customer extends BaseEntity {
     )
     private Set<Product> wishlist;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems;
+
 }

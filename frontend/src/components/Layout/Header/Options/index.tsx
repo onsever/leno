@@ -6,6 +6,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { clearToken } from "../../../../redux/features/auth/authSlice.ts";
 import { JWTReturn } from "../../../../types";
 import { useGetCustomerByIdQuery } from "../../../../redux/features/customer/customerFeature.ts";
+import { CartSidebar } from "../../../index.tsx";
+import ReactDOM from "react-dom";
 
 interface OptionsProps {
   authenticatedCustomer: JWTReturn;
@@ -18,10 +20,18 @@ export default function Options({ authenticatedCustomer }: OptionsProps) {
   const { data: fetchedCustomer } = useGetCustomerByIdQuery(
     authenticatedCustomer.customerId
   );
+  const [isCartSidebarOpen, setIsCartSidebarOpen] = useState<boolean>(false);
 
   const handleLogout = () => {
     dispatch(clearToken());
   };
+
+  const sidebar = isCartSidebarOpen && (
+    <CartSidebar
+      onClose={() => setIsCartSidebarOpen(false)}
+      authenticatedCustomerId={authenticatedCustomer.customerId}
+    />
+  );
 
   return (
     <div className="flex items-center space-x-4">
@@ -29,7 +39,10 @@ export default function Options({ authenticatedCustomer }: OptionsProps) {
         className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary"
         onClick={() => navigate("/my-account?tab=favorites")}
       />
-      <HiOutlineShoppingCart className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary" />
+      <HiOutlineShoppingCart
+        className="w-6 h-6 text-gray-400 cursor-pointer hover:text-primary"
+        onClick={() => setIsCartSidebarOpen(true)}
+      />
       <div
         className="p-1.5 hover:bg-gray-200 cursor-pointer relative"
         onClick={() => setIsAccountHovered(!isAccountHovered)}
@@ -78,6 +91,7 @@ export default function Options({ authenticatedCustomer }: OptionsProps) {
           </div>
         </div>
       </div>
+      {ReactDOM.createPortal(sidebar, document.body)}
     </div>
   );
 }

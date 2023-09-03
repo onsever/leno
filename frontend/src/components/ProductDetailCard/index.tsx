@@ -7,6 +7,10 @@ import {
   useRemoveProductFromWishlistByCustomerIdMutation,
 } from "../../redux/features/wishlist/wishlistFeature.ts";
 import { useNavigate } from "react-router-dom";
+import {
+  useAddToCartMutation,
+  useGetCartItemsQuery,
+} from "../../redux/features/cart/cartFeature.ts";
 
 interface ProductDetailCardProps {
   product?: ProductDetail;
@@ -27,6 +31,8 @@ export default function ProductDetailCard({
   const { data: wishlist } = useGetWishlistByCustomerIdQuery(
     currentCustomerId!
   );
+  const [addToCart] = useAddToCartMutation();
+  const { data: cartItems } = useGetCartItemsQuery(currentCustomerId!);
 
   const handleAddProductToWishlist = async () => {
     if (currentCustomerId) {
@@ -54,9 +60,24 @@ export default function ProductDetailCard({
     }
   };
 
-  const handleAddProductToCart = () => {
+  const checkIfProductIsInCart = () => {
+    return cartItems?.some(
+      (cartItem) => cartItem.product.productId === product?.productId
+    );
+  };
+
+  const handleAddProductToCart = async () => {
     if (currentCustomerId) {
-      console.log("add to cart");
+      if (checkIfProductIsInCart()) {
+        return;
+      }
+
+      await addToCart({
+        customerId: currentCustomerId,
+        productId: product!.productId,
+      });
+
+      window.location.reload();
     } else {
       navigate("/login");
     }
@@ -84,10 +105,10 @@ export default function ProductDetailCard({
         ))}
         <Button
           className="mt-4 w-1/2 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          disabled={validation}
+          disabled={validation || checkIfProductIsInCart()}
         >
           <span className="text-sm" onClick={handleAddProductToCart}>
-            Add to cart
+            {checkIfProductIsInCart() ? "Added to Cart" : "Add to Cart"}
           </span>
         </Button>
         {validation ? (

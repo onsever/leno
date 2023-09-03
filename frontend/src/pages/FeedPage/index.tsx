@@ -5,8 +5,6 @@ import { FeedProductCard, Loading } from "../../components";
 export default function FeedPage() {
   const { data: products, isLoading } = useGetAllProductsQuery(0);
 
-  console.log(products);
-
   useEffect(() => {
     document.title = "Secondhand fashion on Leno | Leno";
   }, []);
