@@ -118,19 +118,27 @@ export default function CartSidebar({
               />
             </div>
           ))}
+          {cartItems?.length === 0 && (
+            <div className="flex flex-col items-center space-y-2">
+              <span className="text-xl font-medium">🤔</span>
+              <span className="text-sm text-gray-400">No items in cart</span>
+            </div>
+          )}
           <span className="text-sm">
             Total:{" "}
             <span className="font-medium">${calculateTotal().toFixed(2)}</span>
           </span>
-          <button
-            className="bg-primary text-white py-2 rounded-md"
-            onClick={() => {
-              navigate("/checkout");
-              onClose();
-            }}
-          >
-            Proceed to Checkout
-          </button>
+          {cartItems && cartItems?.length > 0 && (
+            <button
+              className="bg-primary text-white py-2 rounded-md"
+              onClick={() => {
+                navigate("/checkout");
+                onClose();
+              }}
+            >
+              Proceed to Checkout
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
 
-export default function Hero() {
+interface HeroProps {
+  token: string | null;
+}
+
+export default function Hero({ token }: HeroProps) {
   const navigate = useNavigate();
 
   const handleOnButtonClick = () => {
@@ -20,7 +24,7 @@ export default function Hero() {
           <h1 className="text-4xl">Ready to declutter</h1>
           <h1 className="text-4xl">your closet?</h1>
           <div className="h-2" />
-          <Link to={"/"}>
+          <Link to={`${token ? "/add-product" : "/register"}`}>
             <Button className="w-40 h-12" onClick={handleOnButtonClick}>
               Start selling
             </Button>
