@@ -124,6 +124,12 @@ type CartItem = {
   customer: Customer;
 };
 
+type Shipper = {
+  shipperId: number;
+  name: string;
+  cost: number;
+};
+
 export type {
   RegisterCredentials,
   LoginCredentials,
@@ -142,4 +148,5 @@ export type {
   ProductRequest,
   ProductRequestWithId,
   CartItem,
+  Shipper,
 };
