@@ -3,13 +3,19 @@ import { useGetAllProductsQuery } from "../../redux/features/product/productFeat
 import { FeedProductCard, Loading } from "../../components";
 
 export default function FeedPage() {
-  const { data: products, isLoading } = useGetAllProductsQuery(0);
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useGetAllProductsQuery(0, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
     document.title = "Secondhand fashion on Leno | Leno";
   }, []);
 
-  if (isLoading) return <Loading />;
+  if (isLoading || isFetching) return <Loading />;
 
   return (
     <section className="flex flex-col mx-auto w-[1120px] py-10 pb-32">
