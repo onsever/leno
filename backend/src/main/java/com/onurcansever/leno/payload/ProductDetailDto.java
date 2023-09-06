@@ -20,8 +20,9 @@ public class ProductDetailDto {
     private CustomerDto customer;
 
     private Set<CategoryDto> categories;
+    private Set<ReviewResponse> reviews;
 
-    public ProductDetailDto(Product product, CustomerDto customer, Set<CategoryDto> categories) {
+    public ProductDetailDto(Product product, CustomerDto customer, Set<CategoryDto> categories, Set<ReviewResponse> reviews) {
         this.productId = product.getProductId();
         this.name = product.getName();
         this.description = product.getDescription();
@@ -33,6 +34,7 @@ public class ProductDetailDto {
         }
 
         this.categories = categories;
+        this.reviews = reviews;
     }
 
 }
