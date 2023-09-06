@@ -73,7 +73,10 @@ export default function Options({ authenticatedCustomer }: OptionsProps) {
             >
               My Account
             </span>
-            <span className="text-sm text-gray-400 hover:bg-gray-200 p-2">
+            <span
+              className="text-sm text-gray-400 hover:bg-gray-200 p-2"
+              onClick={() => navigate("/orders")}
+            >
               Orders
             </span>
             <span

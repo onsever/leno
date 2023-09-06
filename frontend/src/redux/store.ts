@@ -10,6 +10,7 @@ import { categoryApi } from "./features/category/categoryFeature.ts";
 import { wishlistApi } from "./features/wishlist/wishlistFeature.ts";
 import { cartApi } from "./features/cart/cartFeature.ts";
 import { shipperApi } from "./features/shipper/shipperFeature.ts";
+import { orderApi } from "./features/order/orderFeature.ts";
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [cartApi.reducerPath]: cartApi.reducer,
   [shipperApi.reducerPath]: shipperApi.reducer,
+  [orderApi.reducerPath]: orderApi.reducer,
   auth: authReducer,
 });
 
@@ -38,7 +40,8 @@ export const store = configureStore({
       categoryApi.middleware,
       wishlistApi.middleware,
       cartApi.middleware,
-      shipperApi.middleware
+      shipperApi.middleware,
+      orderApi.middleware
     ),
 });
 

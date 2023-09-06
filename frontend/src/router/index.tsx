@@ -11,6 +11,7 @@ import {
   SingleProductPage,
   UserProfilePage,
   CheckoutPage,
+  OrdersPage,
 } from "../pages";
 import { Layout } from "../components";
 import ProtectedRoute from "./ProtectedRoute";
@@ -77,6 +78,14 @@ const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <CheckoutPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/orders",
+        element: (
+          <ProtectedRoute>
+            <OrdersPage />
           </ProtectedRoute>
         ),
       },

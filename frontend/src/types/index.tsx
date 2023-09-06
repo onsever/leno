@@ -130,6 +130,28 @@ type Shipper = {
   cost: number;
 };
 
+type Order = {
+  orderId: number;
+  orderNumber: string;
+  customer: Customer;
+  shippingAddress: Address;
+  billingAddress: Address;
+  shipper: Shipper;
+  totalAmount: number;
+  products: Product[];
+  orderDate: number[];
+  status: string;
+};
+
+type OrderRequest = {
+  totalAmount: number;
+  shippingAddressId: number;
+  billingAddressId: number;
+  shipperId: number;
+  customerId: number;
+  products: Product[];
+};
+
 export type {
   RegisterCredentials,
   LoginCredentials,
@@ -149,4 +171,6 @@ export type {
   ProductRequestWithId,
   CartItem,
   Shipper,
+  Order,
+  OrderRequest,
 };
