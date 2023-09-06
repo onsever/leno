@@ -35,9 +35,13 @@ export default function SingleProductPage() {
         validation={checkIfProductBelongsToTheSeller()}
         currentCustomerId={customerId}
       />
-      {/* Product Review Section | Dummy Data */}
       <div className="flex flex-col justify-start items-start w-full mt-10">
-        <ReviewCard />
+        <ReviewCard
+          reviews={product?.reviews}
+          productId={Number(productId)}
+          customerId={Number(customerId)}
+          validation={checkIfProductBelongsToTheSeller()}
+        />
         <SellerCard product={product} />
         <OtherProductsFromSeller
           customerId={product?.customer.customerId}
