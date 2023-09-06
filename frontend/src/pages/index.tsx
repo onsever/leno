@@ -8,3 +8,5 @@ export { default as SettingsPage } from "./SettingsPage";
 export { default as AddProductPage } from "./AddProductPage";
 export { default as SingleProductPage } from "./SingleProductPage";
 export { default as UserProfilePage } from "./UserProfilePage";
+export { default as CheckoutPage } from "./CheckoutPage";
+export { default as OrdersPage } from "./OrdersPage";

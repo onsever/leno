@@ -10,6 +10,8 @@ import {
   SettingsPage,
   SingleProductPage,
   UserProfilePage,
+  CheckoutPage,
+  OrdersPage,
 } from "../pages";
 import { Layout } from "../components";
 import ProtectedRoute from "./ProtectedRoute";
@@ -70,6 +72,22 @@ const routes: RouteObject[] = [
       {
         path: "/user/:customerId",
         element: <UserProfilePage />,
+      },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoute>
+            <CheckoutPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/orders",
+        element: (
+          <ProtectedRoute>
+            <OrdersPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
