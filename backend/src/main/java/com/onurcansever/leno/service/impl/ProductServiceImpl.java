@@ -3,12 +3,10 @@ package com.onurcansever.leno.service.impl;
 import com.onurcansever.leno.entity.Customer;
 import com.onurcansever.leno.entity.Product;
 import com.onurcansever.leno.exception.ResourceNotFoundException;
-import com.onurcansever.leno.payload.CategoryDto;
-import com.onurcansever.leno.payload.CustomerDto;
-import com.onurcansever.leno.payload.ProductDetailDto;
-import com.onurcansever.leno.payload.ProductDto;
+import com.onurcansever.leno.payload.*;
 import com.onurcansever.leno.repository.CustomerRepository;
 import com.onurcansever.leno.repository.ProductRepository;
+import com.onurcansever.leno.repository.ReviewRepository;
 import com.onurcansever.leno.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +22,14 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CustomerRepository customerRepository;
+    private final ReviewRepository reviewRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CustomerRepository customerRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, CustomerRepository customerRepository, ReviewRepository reviewRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.customerRepository = customerRepository;
+        this.reviewRepository = reviewRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -57,7 +57,9 @@ public class ProductServiceImpl implements ProductService {
 
         Set<CategoryDto> categories = existingProduct.getCategories().stream().map(category -> this.modelMapper.map(category, CategoryDto.class)).collect(Collectors.toSet());
 
-        return new ProductDetailDto(existingProduct, existingCustomer, categories);
+        Set<ReviewResponse> reviews = existingProduct.getReviews().stream().map(review -> new ReviewResponse(review.getReviewId(), this.modelMapper.map(review.getCustomer(), CustomerDto.class), this.modelMapper.map(review.getProduct(), ProductDto.class), review.getRating(), review.getReviewText(), review.getCreatedAt())).collect(Collectors.toSet());
+
+        return new ProductDetailDto(existingProduct, existingCustomer, categories, reviews);
     }
 
     @Override
