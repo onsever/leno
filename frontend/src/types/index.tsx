@@ -105,6 +105,7 @@ type ProductDetail = {
   price: number;
   customer: Customer;
   categories: Category[];
+  reviews: ReviewResponse[];
 };
 
 type ProductRequest = {
@@ -152,6 +153,22 @@ type OrderRequest = {
   products: Product[];
 };
 
+type ReviewRequest = {
+  customerId: number;
+  productId: number;
+  rating: number;
+  reviewText: string;
+};
+
+type ReviewResponse = {
+  reviewId: number;
+  customer: Customer;
+  product: Product;
+  rating: number;
+  reviewText: string;
+  reviewDate: number[];
+};
+
 export type {
   RegisterCredentials,
   LoginCredentials,
@@ -173,4 +190,6 @@ export type {
   Shipper,
   Order,
   OrderRequest,
+  ReviewRequest,
+  ReviewResponse,
 };
