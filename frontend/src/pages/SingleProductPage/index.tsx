@@ -17,15 +17,19 @@ export default function SingleProductPage() {
   const token = useSelector((state: RootState) => state.auth.token);
   const customerId = tokenDecoder(token)?.customerId;
 
-  const { data: product, isLoading } = useGetProductByIdQuery(
-    Number(productId)
-  );
+  const {
+    data: product,
+    isLoading,
+    isFetching,
+  } = useGetProductByIdQuery(Number(productId), {
+    refetchOnMountOrArgChange: true,
+  });
 
   const checkIfProductBelongsToTheSeller = () => {
     return product?.customer.customerId === customerId;
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading || isFetching) return <Loading />;
 
   return (
     <section className="flex flex-col mx-auto w-[1120px] py-10">
