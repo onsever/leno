@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ProductDetail } from "../../types";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 
 interface FeedProductCardProps {
   product: ProductDetail;
@@ -7,6 +9,16 @@ interface FeedProductCardProps {
 
 export default function FeedProductCard({ product }: FeedProductCardProps) {
   const navigate = useNavigate();
+
+  const calculateAverageRating = () => {
+    if (product.reviews.length === 0) return 0;
+
+    let sum = 0;
+    product.reviews.forEach((review) => {
+      sum += review.rating;
+    });
+    return sum / product.reviews.length;
+  };
 
   const handleProductClick = () => {
     navigate(`/products/${product.productId}`);
@@ -36,6 +48,23 @@ export default function FeedProductCard({ product }: FeedProductCardProps) {
         <img src={product.image} alt={product.name} className="flex-1 mb-4" />
         <p className="font-medium">{product.name}</p>
         <p>${product.price}</p>
+      </div>
+      <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center">
+          <Rating
+            style={{
+              maxWidth: 100,
+            }}
+            value={calculateAverageRating()}
+            readOnly
+          />
+          <span className="text-gray-500 text-sm ml-2">
+            {calculateAverageRating().toFixed(1)}
+          </span>
+        </div>
+        <span className="text-gray-500 text-sm">
+          {product.reviews.length} reviews
+        </span>
       </div>
     </div>
   );
