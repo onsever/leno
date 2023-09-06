@@ -45,4 +45,7 @@ public class Product extends BaseEntity {
     @ManyToMany(mappedBy = "wishlist", fetch = FetchType.LAZY)
     private Set<Customer> customers;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<Review> reviews;
+
 }
