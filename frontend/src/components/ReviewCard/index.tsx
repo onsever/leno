@@ -36,6 +36,16 @@ export default function ReviewCard({
     ReviewResponse[] | undefined
   >(reviews);
 
+  const calculateAverageRating = () => {
+    if (productReviews?.length === 0) return 0;
+
+    let sum = 0;
+    productReviews?.forEach((review) => {
+      sum += review.rating;
+    });
+    return sum / productReviews!.length;
+  };
+
   const handleAddReview = async (e: FormEvent<HTMLFormElement>) => {
     -e.preventDefault();
 
@@ -96,6 +106,19 @@ export default function ReviewCard({
           >
             Add Review
           </button>
+        )}
+      </div>
+      <div className="flex flex-row justify-start items-center w-full mt-4">
+        <span className="text-sm text-gray-400 mr-2">Rating:</span>
+        <Rating
+          style={{ maxWidth: 100 }}
+          value={calculateAverageRating()}
+          readOnly
+        />
+        {calculateAverageRating() !== 0 && (
+          <span className="text-sm text-gray-400 ml-2">
+            {calculateAverageRating().toFixed(1)}/5.0
+          </span>
         )}
       </div>
       <div className="flex flex-col justify-start items-start w-full mt-4 space-y-4">
