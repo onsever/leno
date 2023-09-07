@@ -10,3 +10,4 @@ export { default as SingleProductPage } from "./SingleProductPage";
 export { default as UserProfilePage } from "./UserProfilePage";
 export { default as CheckoutPage } from "./CheckoutPage";
 export { default as OrdersPage } from "./OrdersPage";
+export { default as FilteringPages } from "./FilteringPages/FilteringPages.tsx";

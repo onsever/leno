@@ -12,6 +12,7 @@ import {
   UserProfilePage,
   CheckoutPage,
   OrdersPage,
+  FilteringPages,
 } from "../pages";
 import { Layout } from "../components";
 import ProtectedRoute from "./ProtectedRoute";
@@ -88,6 +89,10 @@ const routes: RouteObject[] = [
             <OrdersPage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "/:category",
+        element: <FilteringPages />,
       },
     ],
   },
