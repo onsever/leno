@@ -1,7 +1,5 @@
 # Leno - Sell Your Used Clothes Online
 
-![Project Logo will be added](www.google.com)
-
 Welcome to the Leno! This is an e-commerce web application that allows users to easily sell their used clothes online. Whether you're cleaning out your closet or looking for second-hand fashion finds, our platform provides a user-friendly experience for buying and selling pre-loved clothing items.
 
 ## Table of Contents
