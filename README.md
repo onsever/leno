@@ -11,7 +11,7 @@ Welcome to the Leno! This is an e-commerce web application that allows users to 
 
 ## Demo
 
-Screenshots will be inserted.
+Screenshots will be inserted...
 
 ## Features
 
