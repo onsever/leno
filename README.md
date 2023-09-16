@@ -7,7 +7,7 @@ Welcome to the Leno! This is an e-commerce web application that allows users to 
 - [Demo](#demo)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [License](#license)
+- [License](#license
 
 ## Demo
 
